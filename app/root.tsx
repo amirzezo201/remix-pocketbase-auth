@@ -5,6 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { PocketProvider, usePocket } from "~/lib/PocketContext";
 import "./tailwind.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -17,7 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <PocketProvider>{children}</PocketProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -26,7 +27,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const pocketContext = usePocket();
+  return (
+    
+      <Outlet context={pocketContext} />
+    
+  );
 }
 
 export function HydrateFallback() {
